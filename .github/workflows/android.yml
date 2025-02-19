@@ -10,22 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
-      - name: Set Up JDK              // 1
-        uses: actions/setup-java@v1
+      - name: Set Up JDK              
+        uses: actions/setup-java@v4
         with:
-          java-version: 1.8
-
-      - name: Change wrapper permissions  // 2
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '21'
+    
+      - name: Change wrapper permissions 
         run: chmod +x ./gradlew
 
-      - name: Run Tests                   // 3
+      - name: Run Tests                   
         run: ./gradlew test
 
-      - name: Build Project               // 4
-        run: ./gradlew assemble         ./gradlew build
+      - name: Build Project
+        run: ./gradlew build
 
+      - name: Pack Project               
+        run: ./gradlew assemble         
+        
      
         # Noted For Output [main_project_module]/build/outputs/apk/release/
       - name: Upload APK Release 
