@@ -29,22 +29,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="leasingrechnen.at"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-                <data
-                    android:host="www.leasingrechnen.at"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-                <data
-                    android:host="leasingrechnen.at"
+                    android:host="mobile.webkasse.at"
                     android:pathPrefix="/"
                     android:scheme="https" />
-                <data
-                    android:host="www.leasingrechnen.at"
-                    android:pathPrefix="/"
-                    android:scheme="https" />
-            </intent-filter>
+                </intent-filter>
         </activity>
 
         <!--Support super wide screens-->
