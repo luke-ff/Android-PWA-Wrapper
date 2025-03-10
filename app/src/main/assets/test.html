@@ -1,0 +1,34 @@
+<html lang="de-DE">
+<head>
+<title>Test</title>
+
+
+
+</head>
+<body>
+
+<h1>DumbPOS</h1>
+
+<input id="betrag" type="number" step="0.01" min="0" value="100">
+
+<button id="btn" onclick="inputClick()">Pay</button>
+<script>
+
+    window.inputClick = () => {
+        if (!SoftPay) {
+            alert("Sorry, SoftPay n.a.!");
+            return;
+        }
+        var betrag = parseFloat(document.getElementById("betrag").value);
+        var cents = Math.round(betrag,2)*100;
+        SoftPay.pay(cents, 'callbackfn');
+    };
+
+    window.callbackfn = (result) => {
+        console.log("result: " + result);
+        alert("result: " + result);
+    }
+
+</script>
+</body>
+</html>

@@ -3,10 +3,10 @@ package at.xtools.pwawrapper;
 public class Constants {
     public Constants(){}
     // Root page
-    public static String WEBAPP_URL = "https://mobile.webkasse.at/dev/";
+//    public static String WEBAPP_URL = "https://mobile.webkasse.at/dev/";
+    public static String WEBAPP_URL = "file:///android_asset/test.html";
     public static String WEBAPP_HOST = "webkasse.at"; // used for checking Intent-URLs
-
-	// User Agent tweaks
+    // User Agent tweaks
     public static boolean POSTFIX_USER_AGENT = true; // set to true to append USER_AGENT_POSTFIX to user agent
     public static boolean OVERRIDE_USER_AGENT = false; // set to true to use USER_AGENT instead of default one
     public static String USER_AGENT_POSTFIX = "AndroidApp"; // useful for identifying traffic, e.g. in Google Analytics

@@ -3,11 +3,20 @@
     package="at.xtools.pwawrapper">
     <!-- Necessary permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-feature android:name="android.hardware.wifi" android:required="false" />
     <!-- Add support for Chromebooks -->
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <queries>
+        <!-- Allow Softpay *Sandbox* version to be targeted, Production version already listed by the SDK. -->
+        <package android:name="io.softpay.sandbox"/>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -19,6 +28,7 @@
         android:supportsRtl="true">
         <activity android:name="at.xtools.pwawrapper.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
             android:theme="@style/AppTheme.Launch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,12 +39,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="mobile.webkasse.at"
-                    android:pathPrefix="/"
-                    android:scheme="https" />
-                </intent-filter>
-        </activity>
+                    android:scheme="http"
+                    android:host="my.test.host"
+                    android:pathPrefix="/test/" />
+            </intent-filter>
 
+        </activity>
         <!--Support super wide screens-->
         <meta-data android:name="android.max_aspect" android:value="2.1" />
     </application>
