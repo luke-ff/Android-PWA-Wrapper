@@ -188,6 +188,7 @@ public class WebViewHelper {
             }
         });
 
+        Log.i(TAG,"addJavascriptInterface SoftPay");
         webView.addJavascriptInterface(new Object() {
             @JavascriptInterface
             public void pay(int cents, String callbackfn ) {
