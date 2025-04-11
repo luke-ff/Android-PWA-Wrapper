@@ -2,31 +2,46 @@
 <head>
 <title>Test</title>
 
-
-
+    <style>
+#receipt {
+    white-space: pre-wrap;
+    width:fit-content;
+    word-break:break-all;
+    font-family:monospace;
+    font-size:13px;
+    border: 1px solid black;
+    padding: 30px 15px;
+    margin-top:20px;
+}
+    </style>
 </head>
 <body>
 
 <h1>DumbPOS</h1>
 
+<input id="printwidth" type="number" step="1" min="36" max="50" value="42">
 <input id="betrag" type="number" step="0.01" min="0" value="100">
 
 <button id="btn" onclick="inputClick()">Pay</button>
+<div id="receipt"></div>
 <script>
 
+    var pw = 42;
     window.inputClick = () => {
         if (!SoftPay) {
             alert("Sorry, SoftPay n.a.!");
             return;
         }
-        var betrag = parseFloat(document.getElementById("betrag").value);
-        var cents = Math.round(betrag,2)*100;
-        SoftPay.pay(cents, 'callbackfn');
+        pw = parseInt( document.getElementById("printwidth").value );
+        SoftPay.setPrintWidth( pw );
+        var betrag = parseFloat( document.getElementById("betrag").value );
+        var cents = Math.round( betrag, 2 ) * 100;
+        SoftPay.pay( cents, 'callbackfn' );
     };
 
-    window.callbackfn = (result) => {
-        console.log("result: " + result);
-        alert("result: " + result);
+    window.callbackfn = (isok , result, receipt) => {
+        console.log(isok, result, receipt);
+        document.getElementById("receipt").innerText = receipt.match( RegExp(".{" + pw + "}","g") ).join("\n");
     }
 
 </script>
