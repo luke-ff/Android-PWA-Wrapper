@@ -3,6 +3,8 @@ package at.webpos.softpay;
 import static android.content.ContentValues.TAG;
 
 import static io.softpay.client.OutputTypes.JSON;
+import static io.softpay.client.samples.SamplesUtil.POS_APP_ABORT_CODE;
+import static io.softpay.client.samples.SamplesUtil.POS_APP_ABORT_REASON;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -32,38 +34,48 @@ import io.softpay.client.transaction.TransactionRequestOptions;
 
 public class SoftPayImpl {
 
-    final String test;
+    final Context applicationContext;
     final WebView webView;
-    Client client;
+    Client client = null;
     private int pw = 42;
+    private Request currentRequest = null;
 
     public SoftPayImpl(final Context applicationContext, WebView webView) {
-        test = "Sepp";
+        this.applicationContext = applicationContext;
         this.webView = webView;
 
+        // setupClient( "SPAY-spingmbh", "AcmeSpinGmbH", "f53eef50ec5049088abff4e2edfd0757");
+    }
+
+    public void setupClient(final String id, final String merchant, final String secret) {
         // 1: Lambda to create AppSwitch client (minimal) options upon request.
         Callable<ClientOptions> options = () -> {
-            String id = "SPAY-spingmbh";
-            String merchant = "AcmeSpinGmbH";
-            // Assuming your organisation has been provided the secret as "e8337ccce2db45b6be203918944f3fc8".
-            // char[] secret = new char[]{'e','8','3','3','7','c','c','c','e','2','d','b','4','5','b','6','b','e','2','0','3','9','1','8','9','4','4','f','3','f','c','8'};
-            char[] secret = "f53eef50ec5049088abff4e2edfd0757".toCharArray();
-
+            char[] secretAsChars = secret.toCharArray();
             // Create options via (overloaded) constructor, or via 'ClientOptions.Builder' from AppSwitch SDK 1.5.1.
-            return new ClientOptions(applicationContext, new Integrator(id, merchant, secret, new IntegratorEnvironment.JavaEnvironment(), SoftpayTarget.ANY)); // target from 1.5.3, 'ANY' is default
+            return new ClientOptions(applicationContext, new Integrator(id, merchant, secretAsChars, new IntegratorEnvironment.JavaEnvironment(), SoftpayTarget.ANY)); // target from 1.5.3, 'ANY' is default
         };
 
         // 2: Get existing client, or create a Softpay AppSwitch client based on lazily created client options.
         //    From AppSwitch 1.5.5, 'Softpay.clientForTarget' can be used to ensure the integrator credentials match the target.
         client = Softpay.clientOrNew(options); // synchronous
-
     }
 
     public void setPrintWidth(int pw) {
         this.pw = pw;
     }
 
-    public void pay(int cents, String callbackfn) {
+    public boolean abort() {
+        if (currentRequest == null) return false;
+        return currentRequest.abort(POS_APP_ABORT_CODE, POS_APP_ABORT_REASON);
+    }
+
+    public boolean pay(int cents, String callbackfn) {
+
+        if (client == null) {
+            Log.e(TAG,"client setup not called!");
+            return false;
+        }
+
         // 3: Get relevant manager for relevant use case, here a transaction manager.
         TransactionManager manager = client.getTransactionManager(); // synchronous
 
@@ -89,6 +101,7 @@ public class SoftPayImpl {
                     }
                 });
                 Log.e(TAG, "success!");
+                currentRequest = null;
             }
             // 7: Optional - POS app callback on failure, can even happen before 'request.process()' (after 5).
             @Override
@@ -103,6 +116,7 @@ public class SoftPayImpl {
                 });
 
                 Log.e(TAG, "failed!");
+                currentRequest = null;
             }
         };
 
@@ -110,18 +124,15 @@ public class SoftPayImpl {
         long requestCode = 1234;
 
         // 5: Get request for the payment via 'manager'.
-        manager.requestFor(payment, requestCode, request -> {
+        return manager.requestFor(payment, requestCode, request -> {
             TransactionRequestOptions opts = manager.options(request);
             opts.setReceipt(Tier.LOCAL);
-
+            opts.setSwitchBackTimeout(3000L);
             // 6: Process it in the Softpay app
             request.process();
+            currentRequest = request;
         });
 
-    }
-
-    public String getTest() {
-        return test;
     }
 
 }

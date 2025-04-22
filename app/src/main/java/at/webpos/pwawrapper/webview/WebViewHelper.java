@@ -196,13 +196,19 @@ public class WebViewHelper {
         Log.i(TAG,"addJavascriptInterface SoftPay");
         webView.addJavascriptInterface(new Object() {
             @JavascriptInterface
-            public void pay(int cents, String callbackfn ) {
-                mySoftPay.pay(cents, callbackfn);
+            public boolean pay(int cents, String callbackfn) {
+                return mySoftPay.pay(cents, callbackfn);
             }
             @JavascriptInterface
             public void setPrintWidth(int width) {
-                mySoftPay.setPrintWidth(width);
+                mySoftPay.setPrintWidth( width );
             }
+
+            @JavascriptInterface
+            public void setupClient(String id, String merchant, String secret) {
+                mySoftPay.setupClient( id, merchant, secret );
+            }
+
         }, "SoftPay");
 
     }
