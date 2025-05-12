@@ -1,4 +1,4 @@
-name: Android CI7
+name: Android CI8
 
 on: 
   pull_request:
@@ -31,8 +31,8 @@ jobs:
         run: ./gradlew assemble         
         
       - name: LS
-        run: ls -la ./build/
-
+        run: ls -la
+        
         # Noted For Output [main_project_module]/build/
       - name: Upload Build 
         uses: actions/upload-artifact@v4
