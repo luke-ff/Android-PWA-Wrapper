@@ -1,4 +1,4 @@
-name: Android CI6
+name: Android CI7
 
 on: 
   pull_request:
