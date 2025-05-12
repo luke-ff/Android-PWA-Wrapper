@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
         webViewHelper.setupWebView();
         uiManager.changeRecentAppsIcon();
 
+        // Bildschirm aktiv halten
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         // Check for Intents
         try {
             Intent i = getIntent();
