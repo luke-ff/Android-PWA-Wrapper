@@ -1,0 +1,39 @@
+name: Android CI2
+
+on: 
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Up JDK              
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '21'
+    
+      - name: Change wrapper permissions 
+        run: chmod +x ./gradlew
+
+      - name: Run Tests                   
+        run: ./gradlew test
+
+      - name: Build Project
+        run: ./gradlew build
+
+      - name: Pack Project               
+        run: ./gradlew assemble         
+        
+     
+        # Noted For Output [main_project_module]/build/outputs/apk/release/
+      - name: Upload APK Release 
+        uses: actions/upload-artifact@v4
+        with:
+          name: APK(s) release generated
+          path: ${{ env.main_project_module }}/build/outputs/apk/release/
