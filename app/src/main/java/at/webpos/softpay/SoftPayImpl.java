@@ -44,7 +44,7 @@ public class SoftPayImpl {
         this.applicationContext = applicationContext;
         this.webView = webView;
 
-        // setupClient( "SPAY-spingmbh", "AcmeSpinGmbH", "f53eef50ec5049088abff4e2edfd0757");
+        setupClient( "SPAY-spingmbh", "AcmeSpinGmbH", "f53eef50ec5049088abff4e2edfd0757");
     }
 
     public void setupClient(final String id, final String merchant, final String secret) {
