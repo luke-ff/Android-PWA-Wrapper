@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew assemble         
         
      
-        # Noted For Output [main_project_module]/build/outputs/apk/release/
+        # Noted For Output [main_project_module]/build/outputs/apk/debug/
       - name: Upload APK Release 
         uses: actions/upload-artifact@v4
         with:
