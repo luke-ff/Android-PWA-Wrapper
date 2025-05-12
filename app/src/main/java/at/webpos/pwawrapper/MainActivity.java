@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import at.webpos.pwawrapper.ui.UIManager;
 import at.webpos.pwawrapper.webview.WebViewHelper;
