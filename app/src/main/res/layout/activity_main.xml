@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:keepScreenOn="true" 
     tools:context="at.webpos.pwawrapper.MainActivity">
 
 
@@ -57,7 +58,8 @@
         android:layout_height="match_parent"
         android:id="@+id/webView"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true" 
+        android:keepScreenOn="true" />
 
     <ProgressBar
         android:id="@+id/progressBarBottom"
