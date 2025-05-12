@@ -2,7 +2,7 @@
 .externalNativeBuild
 
 # Built application files
-/*/build/
+# /*/build/
 
 # Local configuration file (sdk path, etc)
 local.properties
