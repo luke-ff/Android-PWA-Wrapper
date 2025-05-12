@@ -1,4 +1,4 @@
-name: Android CI5
+name: Android CI6
 
 on: 
   pull_request:
@@ -31,14 +31,11 @@ jobs:
         run: ./gradlew assemble         
         
       - name: LS
-        run: ls -la
-
-      - name: LS2
-        run: ls -la ./Android-PWA-Wrapper/
+        run: ls -la ./build/
 
         # Noted For Output [main_project_module]/build/
       - name: Upload Build 
         uses: actions/upload-artifact@v4
         with:
           name: Files generated
-          path: ./Android-PWA-Wrapper/build/
+          path: ./build/
