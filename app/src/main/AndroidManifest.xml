@@ -16,10 +16,12 @@
     <queries>
         <!-- Allow Softpay *Sandbox* version to be targeted, Production version already listed by the SDK. -->
         <package android:name="io.softpay.sandbox"/>
+        <package android:name="io.softpay.hobex"/>
+        <package android:name="io.softpay.hobex.sandbox"/>
+
     </queries>
 
     <application
-        android:allowBackup="true"
         android:fullBackupOnly="true"
         android:resizeableActivity="true"
         android:icon="@mipmap/ic_launcher_round"

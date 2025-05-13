@@ -13,7 +13,6 @@ import android.util.Log;
 import android.webkit.WebView;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 
 import io.softpay.client.Client;
@@ -26,7 +25,6 @@ import io.softpay.client.SoftpayTarget;
 import io.softpay.client.Tier;
 import io.softpay.client.domain.Amount;
 import io.softpay.client.domain.Integrator;
-import io.softpay.client.domain.IntegratorEnvironment;
 import io.softpay.client.domain.Transaction;
 import io.softpay.client.transaction.PaymentTransaction;
 import io.softpay.client.transaction.TransactionManager;
@@ -43,16 +41,39 @@ public class SoftPayImpl {
     public SoftPayImpl(final Context applicationContext, WebView webView) {
         this.applicationContext = applicationContext;
         this.webView = webView;
+/*
+        setupClient( "SPAY-spingmbh",
+                "AcmeSpinGmbH",
+                "f53eef50ec5049088abff4e2edfd0757",
+                SoftpayTarget.SANDBOX
+        );
+*/
+        setupClient( "Prod-spingmbh",
+                "SpinGmbH",
+                "0bbeda7784d441688f5b90e31a6df17b",
+                SoftpayTarget.ANY
+        );
 
-        setupClient( "SPAY-spingmbh", "AcmeSpinGmbH", "f53eef50ec5049088abff4e2edfd0757");
+
     }
 
-    public void setupClient(final String id, final String merchant, final String secret) {
+    private Integrator createIntegrator(final String id, final String merchant, final String secret, SoftpayTarget softpayTarget) {
+        return new Integrator.Builder()
+                .id(id, merchant)
+                .secret( secret.toCharArray() )
+                .target(softpayTarget)
+                .label("hobex")
+                .build();
+    }
+
+
+    private void setupClient(final String id, final String merchant, final String secret, SoftpayTarget softpayTarget) {
+        final Integrator integrator = createIntegrator(id, merchant, secret, softpayTarget);
         // 1: Lambda to create AppSwitch client (minimal) options upon request.
         Callable<ClientOptions> options = () -> {
-            char[] secretAsChars = secret.toCharArray();
             // Create options via (overloaded) constructor, or via 'ClientOptions.Builder' from AppSwitch SDK 1.5.1.
-            return new ClientOptions(applicationContext, new Integrator(id, merchant, secretAsChars, new IntegratorEnvironment.JavaEnvironment(), SoftpayTarget.ANY)); // target from 1.5.3, 'ANY' is default
+            // return new ClientOptions(applicationContext, new Integrator(id, merchant, secretAsChars, new IntegratorEnvironment.JavaEnvironment(), SoftpayTarget.ANY)); // target from 1.5.3, 'ANY' is default
+            return new ClientOptions(applicationContext, integrator);
         };
 
         // 2: Get existing client, or create a Softpay AppSwitch client based on lazily created client options.

@@ -4,7 +4,8 @@ public class Constants {
     public Constants(){}
     // Root page
 //    public static String WEBAPP_URL = "https://mobile.webkasse.at/dev/";
-    public static String WEBAPP_URL = "https://clientdisplay.webpos.intern:8843/index.html";
+    //public static String WEBAPP_URL = "https://clientdisplay.webpos.intern:8843/index.html";
+    public static String WEBAPP_URL = "https://mobile.webkasse.at/clientdisplay_dev/index.html";
 
     public static String WEBAPP_HOST = "webkasse.at"; // used for checking Intent-URLs
     // User Agent tweaks

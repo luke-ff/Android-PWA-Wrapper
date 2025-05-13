@@ -203,12 +203,12 @@ public class WebViewHelper {
             public void setPrintWidth(int width) {
                 mySoftPay.setPrintWidth( width );
             }
-
+/*
             @JavascriptInterface
             public void setupClient(String id, String merchant, String secret) {
-                mySoftPay.setupClient( id, merchant, secret );
+                mySoftPay.setupClient( id, merchant, secret, SoftpayTarget.ANY);
             }
-
+*/
         }, "SoftPay");
 
     }
