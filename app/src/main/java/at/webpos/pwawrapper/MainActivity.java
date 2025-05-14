@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.WindowManager;
 
 import at.webpos.pwawrapper.ui.UIManager;
@@ -78,6 +80,22 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (!webViewHelper.goBack()) {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            enableFullscreen();
+        }
+    }
+
+    private void enableFullscreen() {
+        WindowInsetsController insetsController = getWindow().getInsetsController();
+        if (insetsController != null) {
+            insetsController.hide(WindowInsets.Type.systemBars());
+            insetsController.setSystemBarsBehavior(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
         }
     }
 }
